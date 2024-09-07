@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="mb-4 text-center">
+        <form method="get" action="{% url 'home' %}">
+            <div class="input-group">
+                <input type="text" class="form-control" name="search" placeholder="Search by name or category" value="{{ search_query }}">
+                <button class="btn btn-primary" type="submit">Search</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="mb-4">
+        <h4>Categories</h4>
+        <div class="d-flex flex-wrap">
+            {% for cat in categories %}
+            <div class="p-2">
+                <form method="get" action="{% url 'home' %}">
+                    <input type="hidden" name="category" value="{{ cat }}">
+                    <button type="submit" class="btn btn-secondary">{{ cat }}</button>
+                </form>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <h4>Results</h4>
+    {% if users %}
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Category</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.name }}</td>
+                <td>{{ user.phone }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.category }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No results found.</p>
+    {% endif %}
+</div>
+{% endblock %}
